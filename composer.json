@@ -128,8 +128,10 @@
             "@remove-test-config"
         ],
         "copy-test-config": [
+            "cp tests/env.yml.dist tests/env.yml"
         ],
         "remove-test-config": [
+            "rm -f tests/env.yml"
         ]
     }
 }
