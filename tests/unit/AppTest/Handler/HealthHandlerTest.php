@@ -11,7 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 use function json_decode;
 
-class PingHandlerTest extends TestCase
+class HealthHandlerTest extends TestCase
 {
     public function testResponse()
     {
@@ -23,6 +23,6 @@ class PingHandlerTest extends TestCase
         $json = json_decode((string) $response->getBody());
 
         $this->assertInstanceOf(JsonResponse::class, $response);
-        $this->assertTrue(isset($json->ack));
+        $this->assertTrue(isset($json->version));
     }
 }

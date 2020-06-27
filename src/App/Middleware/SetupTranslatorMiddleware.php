@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Middleware;
 
+use App\Constants;
 use App\Validator\Translator\Translator as ValidatorTranslator;
 use Laminas\I18n\Translator\Translator as I18nTranslator;
 use Laminas\Validator\AbstractValidator;
@@ -21,7 +22,7 @@ class SetupTranslatorMiddleware implements MiddlewareInterface
 {
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $locale = getenv('LOCALE');
+        $locale = getenv('LOCALE') ?: Constants::LOCALE_DEFAULT;
         if (
             file_exists(
                 sprintf(

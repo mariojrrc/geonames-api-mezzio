@@ -65,6 +65,10 @@
         "tuupola/cors-middleware": "^1.1"
     },
     "require-dev": {
+        "codeception/codeception": "^4.1",
+        "codeception/module-asserts": "^1.0.0",
+        "codeception/module-phpbrowser": "^1.0.0",
+        "codeception/module-rest": "^1.2",
         "doctrine/coding-standard": "^8.0",
         "filp/whoops": "^2.7.1",
         "laminas/laminas-development-mode": "^3.2",
@@ -83,7 +87,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "AppTest\\": "test/AppTest/"
+            "AppTest\\": "tests/unit/AppTest/",
+            "GeoTest\\": "tests/unit/GeoTest/"
         }
     },
     "scripts": {
@@ -102,12 +107,29 @@
             "@check",
             "@test"
         ],
+        "ci-test": [
+            "@copy-test-config",
+            "codecept run unit --coverage-html --no-colors",
+            "@remove-test-config"
+        ],
         "clear-config-cache": "php bin/clear-config-cache.php",
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
-        "phpstan": "php -d memory_limit=-1 vendor/bin/phpstan analyse -l 4 -c phpstan.neon src",
+        "phpstan": "php -d memory_limit=-1 vendor/bin/phpstan analyse -l 5 -c phpstan.neon src",
         "serve": "php -S 0.0.0.0:8080 -t public/",
-        "test": "phpunit --colors=always",
-        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+        "test": [
+            "@copy-test-config",
+            "codecept run unit",
+            "@remove-test-config"
+        ],
+        "test-coverage": [
+            "@copy-test-config",
+            "codecept run unit --coverage-html",
+            "@remove-test-config"
+        ],
+        "copy-test-config": [
+        ],
+        "remove-test-config": [
+        ]
     }
 }

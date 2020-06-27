@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Geo\Mapper;
 
+use App\Constants;
 use ArrayObject;
 use DateTime;
 use DateTimeZone;
@@ -63,7 +64,7 @@ abstract class Mapper implements MapperInterface
     protected function createFromStorage(array $data): EntityInterface
     {
         $data['id']        = $data['_id'];
-        $timezone          = new DateTimeZone(getenv('TIMEZONE'));
+        $timezone          = new DateTimeZone(getenv('TIMEZONE') ?: Constants::TIMEZONE_DEFAULT);
         $data['createdAt'] = $data['createdAt'] instanceof UTCDateTime
             ? $data['createdAt']->toDateTime()->setTimeZone($timezone)->format('c')
             : null;
@@ -169,7 +170,9 @@ abstract class Mapper implements MapperInterface
                 continue;
             }
 
-            $data[$key] = $data[$key]->toDateTime()->setTimeZone(new DateTimeZone(getenv('TIMEZONE')))->format('c');
+            $data[$key] = $data[$key]->toDateTime()
+                ->setTimeZone(new DateTimeZone(getenv('TIMEZONE') ?: Constants::TIMEZONE_DEFAULT))
+                ->format('c');
         }
 
         return $this->entityClass::fromArray($data);
