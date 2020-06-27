@@ -59,6 +59,7 @@
         "mezzio/mezzio-problem-details": "^1.1",
         "mongodb/mongodb": "^1.6",
         "moontoast/math": "^1.2",
+        "phpseclib/bcmath_compat": "^1.0",
         "ramsey/uuid": "^4.0",
         "roave/security-advisories": "dev-master",
         "symfony/dotenv": "^5.1",
