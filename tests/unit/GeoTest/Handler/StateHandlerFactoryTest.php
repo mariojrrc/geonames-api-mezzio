@@ -12,11 +12,14 @@ use Mezzio\Hal\ResourceGenerator;
 use Mezzio\ProblemDetails\ProblemDetailsResponseFactory;
 use Mezzio\Router\RouterInterface;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 
 class StateHandlerFactoryTest extends TestCase
 {
+    use ProphecyTrait;
+    
     /** @var ContainerInterface|ObjectProphecy */
     protected $container;
 
