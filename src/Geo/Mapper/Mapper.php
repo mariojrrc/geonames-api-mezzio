@@ -15,6 +15,8 @@ use Laminas\Paginator\Adapter\ArrayAdapter;
 use MongoDB\BSON\UTCDateTime;
 use MongoDB\Collection;
 
+use function array_column;
+use function array_map;
 use function array_merge;
 use function assert;
 use function count;
@@ -27,6 +29,8 @@ abstract class Mapper implements MapperInterface
     private string $entityClass;
     private string $collectionClass;
     private string $inputFilterClass;
+
+    public static int $maxItemPerPage = 100;
 
     public function __construct(
         Collection $collection,
@@ -181,5 +185,21 @@ abstract class Mapper implements MapperInterface
     public function createEntityInputFilter(): InputFilterInterface
     {
         return new $this->inputFilterClass();
+    }
+
+    public function bulk(array $ids): array
+    {
+        $result = $this->mongoCollection->find(['_id' => ['$in' => $ids]]);
+
+        return array_column(array_map(
+            static function (ArrayObject $item) {
+                return [
+                    'id' => $item['_id'],
+                    'name' => $item['name'],
+                    'shortName' => $item['shortName'],
+                ];
+            },
+            $result->toArray()
+        ), null, 'id');
     }
 }

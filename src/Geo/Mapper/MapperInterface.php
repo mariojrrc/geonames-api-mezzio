@@ -33,4 +33,6 @@ interface MapperInterface
     public function createEntity(array $data): EntityInterface;
 
     public function createEntityInputFilter(): InputFilterInterface;
+
+    public function bulk(array $ids): array;
 }

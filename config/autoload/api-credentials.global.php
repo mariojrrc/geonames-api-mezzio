@@ -17,6 +17,7 @@ return [
                     ],
                     getenv('CLIENTS_API_KEY') => [ // Clients
                         'allowed-routes' => [
+                            'state.bulk' => ['POST', 'HEAD', 'OPTIONS'],
                             'state.entity' => ['GET', 'HEAD', 'OPTIONS'],
                             'state.collection' => ['GET', 'HEAD', 'OPTIONS'],
                             'city.entity' => ['GET', 'HEAD', 'OPTIONS'],

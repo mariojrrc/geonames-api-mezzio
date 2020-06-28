@@ -84,6 +84,8 @@ abstract class MongoRestHandler implements RequestHandlerInterface
                     return isset($id)
                         ? $this->handleDelete($id)
                         : $this->handleDeleteList();
+                case 'OPTIONS':
+                    return $this->handleOptions();
                 default:
                     throw MethodNotAllowedException::create();
             }
@@ -317,5 +319,10 @@ abstract class MongoRestHandler implements RequestHandlerInterface
     public function patchList(array $data): CollectionInterface
     {
         throw new MethodNotAllowedException('Method not allowed', 405);
+    }
+
+    private function handleOptions(): ResponseInterface
+    {
+        return new EmptyResponse();
     }
 }

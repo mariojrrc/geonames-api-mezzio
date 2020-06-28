@@ -10,6 +10,8 @@ use Geo\Entity\StateCollection;
 use Geo\Entity\StateEntity;
 use Geo\Handler\CityHandler;
 use Geo\Handler\CityHandlerFactory;
+use Geo\Handler\StateBulkHandler;
+use Geo\Handler\StateBulkHandlerFactory;
 use Geo\Handler\StateHandler;
 use Geo\Handler\StateHandlerFactory;
 use Geo\Mapper\CityMapper;
@@ -52,6 +54,7 @@ class ConfigProvider
             'factories'  => [
                 StateHandler::class => StateHandlerFactory::class,
                 CityHandler::class => CityHandlerFactory::class,
+                StateBulkHandler::class => StateBulkHandlerFactory::class,
 
                 StateMapper::class => StateMapperFactory::class,
                 CityMapper::class => CityMapperFactory::class,

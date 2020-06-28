@@ -6,7 +6,6 @@ use App\Middleware\AuthMiddleware;
 use App\Middleware\SetupTranslatorMiddleware;
 use App\Middleware\VersionMiddleware;
 use Laminas\Stratigility\Middleware\ErrorHandler;
-use LosMiddleware\RateLimit\RateLimitMiddleware;
 use LosMiddleware\ResponseTime\ResponseTime;
 use Mezzio\Application;
 use Mezzio\Handler\NotFoundHandler;
@@ -43,7 +42,6 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
 
     $app->pipe(UrlHelperMiddleware::class);
 
-    $app->pipe(RateLimitMiddleware::class);
     $app->pipe(AuthMiddleware::class);
     $app->pipe(SetupTranslatorMiddleware::class);
 
