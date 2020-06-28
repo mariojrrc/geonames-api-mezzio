@@ -10,8 +10,9 @@ use DateTime;
 use DateTimeZone;
 use Geo\Entity\CollectionInterface;
 use Geo\Entity\EntityInterface;
+use Geo\Paginator\MongoMapperAdapter;
 use Laminas\InputFilter\InputFilterInterface;
-use Laminas\Paginator\Adapter\ArrayAdapter;
+use Laminas\Paginator\Paginator;
 use MongoDB\BSON\UTCDateTime;
 use MongoDB\Collection;
 
@@ -19,7 +20,6 @@ use function array_column;
 use function array_map;
 use function array_merge;
 use function assert;
-use function count;
 use function date;
 use function getenv;
 
@@ -29,8 +29,6 @@ abstract class Mapper implements MapperInterface
     private string $entityClass;
     private string $collectionClass;
     private string $inputFilterClass;
-
-    public static int $maxItemPerPage = 100;
 
     public function __construct(
         Collection $collection,
@@ -46,42 +44,18 @@ abstract class Mapper implements MapperInterface
 
     public function fetchById(string $id): ?EntityInterface
     {
-        return $this->fetchOneBy(['_id' => $id]);
+        return $this->fetchOneBy(['_id' => $id], true);
     }
 
     public function fetchOneBy(array $conditions = [], bool $withDeleted = false): ?EntityInterface
     {
-        if (! $withDeleted) {
-            $conditions['deleted'] = ['$ne' => true];
-        }
-
-        $result = $this->mongoCollection->findOne($conditions);
-        if ($result === null) {
+        $paginator = $this->fetchAllBy($conditions, $withDeleted);
+        assert($paginator instanceof Paginator);
+        if ($paginator->count() === 0) {
             return null;
         }
 
-        assert($result instanceof ArrayObject);
-
-        return $this->createFromStorage($result->getArrayCopy());
-    }
-
-    protected function createFromStorage(array $data): EntityInterface
-    {
-        $data['id']        = $data['_id'];
-        $timezone          = new DateTimeZone(getenv('TIMEZONE') ?: Constants::TIMEZONE_DEFAULT);
-        $data['createdAt'] = $data['createdAt'] instanceof UTCDateTime
-            ? $data['createdAt']->toDateTime()->setTimeZone($timezone)->format('c')
-            : null;
-        $data['updatedAt'] = $data['updatedAt'] instanceof UTCDateTime
-            ? $data['updatedAt']->toDateTime()->setTimeZone($timezone)->format('c')
-            : null;
-        $data['deletedAt'] = isset($data['deletedAt']) && $data['deletedAt'] instanceof UTCDateTime
-            ? $data['deletedAt']->toDateTime()->setTimeZone($timezone)->format('c')
-            : null;
-        $entity            = $this->entityClass::fromArray($data);
-        assert($entity instanceof EntityInterface);
-
-        return $entity;
+        return $paginator->getCurrentItems()->current();
     }
 
     public function fetchAllBy(
@@ -93,34 +67,14 @@ abstract class Mapper implements MapperInterface
             $conditions['deleted'] = ['$ne' => true];
         }
 
-        $list   = [];
-        $result = $this->mongoCollection->find($conditions, $options);
-        if ($result !== null) {
-            $list = $result->toArray();
-        }
+        $adapter = new MongoMapperAdapter(
+            $this->mongoCollection,
+            $conditions,
+            $options,
+            $this->entityClass
+        );
 
-        return $this->createCollectionFromStorage($list);
-    }
-
-    protected function createCollectionFromStorage(array $data): CollectionInterface
-    {
-        $list = [];
-        foreach ($data as $entity) {
-            $list[] = $this->createFromStorage($entity->getArrayCopy());
-        }
-
-        return new $this->collectionClass(new ArrayAdapter($list));
-    }
-
-    public function countAllBy(array $conditions = [], bool $withDeleted = false, array $options = []): int
-    {
-        if (! $withDeleted) {
-            $conditions['deleted'] = ['$ne' => true];
-        }
-
-        $result = $this->mongoCollection->find($conditions, $options);
-
-        return count($result->toArray());
+        return new $this->collectionClass($adapter);
     }
 
     public function insert(EntityInterface $entity): EntityInterface

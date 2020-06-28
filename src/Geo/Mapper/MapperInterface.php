@@ -20,8 +20,6 @@ interface MapperInterface
         array $options = []
     ): CollectionInterface;
 
-    public function countAllBy(array $conditions = [], bool $withDeleted = false, array $options = []): int;
-
     public function insert(EntityInterface $entity): EntityInterface;
 
     public function update(EntityInterface $entity, array $set): EntityInterface;

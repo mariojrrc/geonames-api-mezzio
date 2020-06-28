@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace Geo\Entity;
 
+use App\Constants;
 use DateTimeImmutable;
+use DateTimeZone;
 use Geo\ValueObject\StateId;
 use Laminas\InputFilter\InputFilterInterface;
 use LosMiddleware\ApiServer\Entity\Entity;
+use MongoDB\BSON\Unserializable;
+use MongoDB\BSON\UTCDateTime;
 
-class StateEntity extends Entity implements EntityInterface
+use function getenv;
+
+class StateEntity extends Entity implements EntityInterface, Unserializable
 {
     private StateId $id;
     private string $name;
@@ -18,6 +24,9 @@ class StateEntity extends Entity implements EntityInterface
     private DateTimeImmutable $updatedAt;
     private ?bool $deleted;
     private ?DateTimeImmutable $deletedAt;
+    // phpcs:disable
+    private bool $unserialized = false;
+    // phpcs:enable
 
     private function __construct(
         StateId $id,
@@ -77,5 +86,22 @@ class StateEntity extends Entity implements EntityInterface
                 ? $this->deletedAt->format($dateFormat)
                 : null,
         ];
+    }
+
+    public function bsonUnserialize(array $data): void
+    {
+        $this->id           = StateId::fromString($data['_id']);
+        $this->name         = $data['name'];
+        $this->shotName     = $data['shortName'];
+        $timezone           = new DateTimeZone(getenv('TIMEZONE') ?: Constants::TIMEZONE_DEFAULT);
+        $this->createdAt    = new DateTimeImmutable($data['createdAt'] instanceof UTCDateTime
+            ? $data['createdAt']->toDateTime()->setTimezone($timezone)->format('c') : 'now');
+        $this->updatedAt    = new DateTimeImmutable($data['updatedAt'] instanceof UTCDateTime
+            ? $data['updatedAt']->toDateTime()->setTimezone($timezone)->format('c') : 'now');
+        $this->deletedAt    = $data['deletedAt'] instanceof UTCDateTime
+            ? new DateTimeImmutable($data['deletedAt']->toDateTime()->setTimezone($timezone)->format('c'))
+            : null;
+        $this->deleted      = (bool) $data['deleted'] ?? false;
+        $this->unserialized = true;
     }
 }
