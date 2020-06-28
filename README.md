@@ -20,3 +20,8 @@ A documentação dos endpoints deve ser lida e pode ser encontrada na pasta `pub
 2. execute `composer install`
 3. execute `composer serve`
 4. Faça os testes via [Postman](https://www.getpostman.com/) ou similar no endereço `0.0.0.0:8080/v1/state`
+
+** Uso com Docker **
+1. `docker-compose up`
+2. `docker exec -t geoname-mezzio-php bash -c "cd /var/www/html && composer install"`
+Obs: caso tenha problema com composer install e mongodb-ext, execute `docker exec -t geoname-mezzio-php bash -c "pecl install mongodb"`

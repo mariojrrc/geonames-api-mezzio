@@ -97,9 +97,19 @@
         "post-create-project-cmd": [
             "@development-enable"
         ],
+        "post-install-cmd": [
+            "@create-dir"
+        ],
+        "post-update-cmd": [
+            "@create-dir"
+        ],
         "development-disable": "laminas-development-mode disable",
         "development-enable": "laminas-development-mode enable",
         "development-status": "laminas-development-mode status",
+        "create-dir": [
+            "mkdir -p data/logs data/cache tests/_output",
+            "chmod 777 data/logs data/cache tests/_output"
+        ],
         "mezzio": "mezzio --ansi",
         "check": [
             "@cs-check",
