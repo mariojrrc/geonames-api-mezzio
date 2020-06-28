@@ -99,10 +99,10 @@ class CityEntity extends Entity implements EntityInterface, Unserializable
             ? $data['createdAt']->toDateTime()->setTimezone($timezone)->format('c') : 'now');
         $this->updatedAt    = new DateTimeImmutable($data['updatedAt'] instanceof UTCDateTime
             ? $data['updatedAt']->toDateTime()->setTimezone($timezone)->format('c') : 'now');
-        $this->deletedAt    = $data['deletedAt'] instanceof UTCDateTime
+        $this->deletedAt    = ($data['deletedAt'] ?? '') instanceof UTCDateTime
             ? new DateTimeImmutable($data['deletedAt']->toDateTime()->setTimezone($timezone)->format('c'))
             : null;
-        $this->deleted      = (bool) $data['deleted'] ?? false;
+        $this->deleted      = (bool) ($data['deleted'] ?? false);
         $this->unserialized = true;
     }
 }

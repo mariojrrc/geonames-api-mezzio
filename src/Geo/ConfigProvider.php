@@ -41,6 +41,7 @@ class ConfigProvider
         return [
             'dependencies' => $this->getDependencies(),
             MetadataMap::class => $this->getMetadataMaps(),
+            'commands' => $this->getCommands(),
         ];
     }
 
@@ -58,6 +59,8 @@ class ConfigProvider
 
                 StateMapper::class => StateMapperFactory::class,
                 CityMapper::class => CityMapperFactory::class,
+
+                Command\PopulateGeoDBCommand::class => Command\PopulateGeoDBCommandFactory::class,
             ],
         ];
     }
@@ -89,6 +92,13 @@ class ConfigProvider
                 'collection_relation' => 'cities',
                 'route' => 'city.collection',
             ],
+        ];
+    }
+
+    private function getCommands(): array
+    {
+        return [
+            Command\PopulateGeoDBCommand::class,
         ];
     }
 }

@@ -25,3 +25,6 @@ A documentação dos endpoints deve ser lida e pode ser encontrada na pasta `pub
 1. `docker-compose up`
 2. `docker exec -t geoname-mezzio-php bash -c "cd /var/www/html && composer install"`
 Obs: caso tenha problema com composer install e mongodb-ext, execute `docker exec -t geoname-mezzio-php bash -c "pecl install mongodb"`
+
+**BONUS**
+Console disponível para criar estados/cidades disponível via `php bin/console populate:geodb`;

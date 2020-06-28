@@ -15,10 +15,11 @@ class StateMapperFactory
     public function __invoke(ContainerInterface $container): StateMapper
     {
         $db     = $container->get('config')['db']['mongo']['uri'];
+        $dbName = $container->get('config')['db']['mongo']['dbname'];
         $client = new Client($db);
 
         return new StateMapper(
-            $client->selectCollection('geonames', 'states'),
+            $client->selectCollection($dbName, 'states'),
             StateEntity::class,
             StateCollection::class,
             StateInputFilter::class

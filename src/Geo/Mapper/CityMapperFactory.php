@@ -15,10 +15,11 @@ class CityMapperFactory
     public function __invoke(ContainerInterface $container): CityMapper
     {
         $db     = $container->get('config')['db']['mongo']['uri'];
+        $dbName = $container->get('config')['db']['mongo']['dbname'];
         $client = new Client($db);
 
         return new CityMapper(
-            $client->selectCollection('geonames', 'cities'),
+            $client->selectCollection($dbName, 'cities'),
             CityEntity::class,
             CityCollection::class,
             CityInputFilter::class

@@ -6,6 +6,7 @@ return [
     'db' => [
         'mongo' => [
             'uri' => getenv('MONGODB_URI'),
+            'dbname' => getenv('MONGODB_NAME'),
         ],
     ],
 ];
