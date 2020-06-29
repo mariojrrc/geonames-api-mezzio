@@ -14,8 +14,10 @@ class CityMapperFactory
 {
     public function __invoke(ContainerInterface $container): CityMapper
     {
-        $db     = $container->get('config')['db']['mongo']['uri'];
-        $dbName = $container->get('config')['db']['mongo']['dbname'];
+        $config = $container->get('config');
+        $db     = $config['db']['mongo']['uri'];
+        $dbName = $config['db']['mongo']['dbname'];
+
         $client = new Client($db);
 
         return new CityMapper(

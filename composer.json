@@ -108,8 +108,8 @@
         "development-enable": "laminas-development-mode enable",
         "development-status": "laminas-development-mode status",
         "create-dir": [
-            "mkdir -p data/logs data/cache data/cache/rate_limit tests/_output",
-            "chmod 777 data/logs data/cache data/cache/rate_limit tests/_output"
+            "mkdir -p data/logs data/cache data/cache/rate_limit data/cache/api tests/_output",
+            "chmod 777 data/logs data/cache data/cache/rate_limit data/cache/api tests/_output"
         ],
         "mezzio": "mezzio --ansi",
         "check": [

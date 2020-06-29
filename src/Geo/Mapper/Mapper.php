@@ -11,6 +11,7 @@ use DateTimeZone;
 use Geo\Entity\CollectionInterface;
 use Geo\Entity\EntityInterface;
 use Geo\Paginator\MongoMapperAdapter;
+use Laminas\Cache\Storage\StorageInterface;
 use Laminas\InputFilter\InputFilterInterface;
 use Laminas\Paginator\Paginator;
 use MongoDB\BSON\UTCDateTime;
@@ -22,6 +23,8 @@ use function array_merge;
 use function assert;
 use function date;
 use function getenv;
+use function md5;
+use function var_export;
 
 abstract class Mapper implements MapperInterface
 {
@@ -29,17 +32,20 @@ abstract class Mapper implements MapperInterface
     private string $entityClass;
     private string $collectionClass;
     private string $inputFilterClass;
+    private ?StorageInterface $cache;
 
     public function __construct(
         Collection $collection,
         string $entityClass,
         string $collectionClass,
-        string $inputFilterClass
+        string $inputFilterClass,
+        ?StorageInterface $cache = null
     ) {
         $this->mongoCollection  = $collection;
         $this->entityClass      = $entityClass;
         $this->collectionClass  = $collectionClass;
         $this->inputFilterClass = $inputFilterClass;
+        $this->cache            = $cache;
     }
 
     public function fetchById(string $id): ?EntityInterface
@@ -143,17 +149,26 @@ abstract class Mapper implements MapperInterface
 
     public function bulk(array $ids): array
     {
+        $cacheKey = md5(self::class . __FUNCTION__ . var_export($ids, true));
+        if ($this->cache !== null && $this->cache->hasItem($cacheKey)) {
+            return $this->cache->getItem($cacheKey);
+        }
+
         $result = $this->mongoCollection->find(['_id' => ['$in' => $ids]]);
 
-        return array_column(array_map(
-            static function (ArrayObject $item) {
-                return [
-                    'id' => $item['_id'],
-                    'name' => $item['name'],
-                    'shortName' => $item['shortName'],
-                ];
-            },
+        $items = array_column(array_map(
+            static fn (ArrayObject $item) => [
+                'id' => $item['_id'],
+                'name' => $item['name'],
+                'shortName' => $item['shortName'],
+            ],
             $result->toArray()
         ), null, 'id');
+
+        if ($this->cache !== null) {
+            $this->cache->setItem($cacheKey, $items);
+        }
+
+        return $items;
     }
 }
