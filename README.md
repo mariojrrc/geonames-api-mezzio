@@ -10,7 +10,7 @@ Possui basicamente dois endpoints com CRUD:
 
 Para acessar a api é necessário utilizar header de autenticação no formato `X-Api-Key: uuid`. Os tokens para  usuário administrador e de consulta são definidos via `.env` localizado na raiz do projeto.
 
-A documentação dos endpoints deve ser lida e pode ser encontrada na pasta `public/doc`. Ela é feita utilizando a notação do OpenAPI v3.
+A documentação dos endpoints pode ser encontrada na pasta `public/doc`. Ela é feita utilizando a notação do OpenAPI v3.
 
 ## Executando o projeto
 
