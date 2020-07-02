@@ -10,7 +10,7 @@ use Laminas\ConfigAggregator\ConfigAggregator;
 // phpcs:disable
 return [
     ConfigAggregator::ENABLE_CACHE => false,
-    'debug' => getenv('DEBUG'),
+    'debug' => false,
     'cache' => [
         'api' => [
             'adapter' => [

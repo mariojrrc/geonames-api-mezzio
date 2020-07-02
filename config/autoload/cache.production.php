@@ -7,14 +7,10 @@ return [
     'cache' => [
         'api' => [
             'adapter' => [
-                'name' => 'filesystem',
+                'name' => 'redis',
                 'options' => [
-                    'namespace' => '',
-                    'cache_dir' => 'data/cache/api',
-                    'dir_level' => 1,
-                    'dir_permission' => 0777,
-                    'file_permission' => 0666,
-                    'ttl' => 300,
+                    'server' => getenv('REDIS_URL'),
+                    'password' => getenv('REDIS_PASS'),
                 ],
             ],
             'plugins' => [
@@ -24,14 +20,10 @@ return [
         ],
         'los_rate_limit' => [
             'adapter' => [
-                'name' => 'filesystem',
+                'name' => 'redis',
                 'options' => [
-                    'namespace' => '',
-                    'cache_dir' => 'data/cache/rate_limit',
-                    'dir_level' => 1,
-                    'dir_permission' => 0777,
-                    'file_permission' => 0666,
-                    'ttl' => 300,
+                    'server' => getenv('REDIS_URL'),
+                    'password' => getenv('REDIS_PASS'),
                 ],
             ],
             'plugins' => [

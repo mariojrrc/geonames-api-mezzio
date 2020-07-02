@@ -8,6 +8,7 @@ use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\DelegatorFactoryInterface;
 use Laminas\Stratigility\Middleware\ErrorHandler;
 
+use Mezzio\ProblemDetails\ProblemDetailsMiddleware;
 use function assert;
 
 class NewRelicListenerDelegatorFactory implements DelegatorFactoryInterface
@@ -22,7 +23,7 @@ class NewRelicListenerDelegatorFactory implements DelegatorFactoryInterface
         ?array $options = null
     ) {
         $errorHandler = $callback();
-        assert($errorHandler instanceof ErrorHandler);
+        assert($errorHandler instanceof ProblemDetailsMiddleware);
         $errorHandler->attachListener(new NewRelicListener());
 
         return $errorHandler;
