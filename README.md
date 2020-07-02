@@ -1,6 +1,6 @@
 GeoNames API Mezzio/MongoDB Example
 =================================================
-[![Build Status](https://semaphoreci.com/api/v1/mariojrrc/geonames-api-mezzio/branches/master/badge.svg)](https://semaphoreci.com/mariojrrc/geonames-api)
+[![Build Status](https://semaphoreci.com/api/v1/mariojrrc/geonames-api-mezzio/branches/master/badge.svg)](https://semaphoreci.com/mariojrrc/geonames-api-mezzio)
 
 Este projeto contém uma API REST de exemplo escrita em PHP 7.4 utilizando [Mezzio](https://docs.mezzio.dev/) e [MongoDB](https://mongodb.com/).
 Possui basicamente dois endpoints com CRUD:
