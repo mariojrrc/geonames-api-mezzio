@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Middleware\AuthMiddleware;
+use App\Middleware\NewRelicMiddleware;
 use App\Middleware\SetupTranslatorMiddleware;
 use App\Middleware\VersionMiddleware;
 use Laminas\Stratigility\Middleware\ErrorHandler;
@@ -42,6 +43,7 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
 
     $app->pipe(UrlHelperMiddleware::class);
 
+    $app->pipe(NewRelicMiddleware::class);
     $app->pipe(AuthMiddleware::class);
     $app->pipe(SetupTranslatorMiddleware::class);
 

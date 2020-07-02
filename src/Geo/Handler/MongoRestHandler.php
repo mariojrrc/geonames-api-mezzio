@@ -17,6 +17,7 @@ use Mezzio\ProblemDetails\ProblemDetailsResponseFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Throwable;
 
 use function array_key_exists;
 use function array_keys;
@@ -93,8 +94,8 @@ abstract class MongoRestHandler implements RequestHandlerInterface
             return $this->generateErrorResponse('Method not allowed', 405);
         } catch (ValidationException $ex) {
             return $this->generateErrorResponse('Unprocessable Entity', 422, $ex->getAdditionalData());
-        } catch (\Exception $ex) {
-            return $this->generateErrorResponse($ex->getMessage(), $ex->getCode());
+        } catch (Throwable $ex) {
+            throw $ex;
         }
     }
     // phpcs:enable

@@ -15,7 +15,7 @@ if (file_exists($envFile)) {
 date_default_timezone_set(getenv('TIMEZONE'));
 
 if (extension_loaded('newrelic')) {
-    newrelic_set_appname('geonames;api');
+    newrelic_set_appname('geonames_api');
 }
 
 $cacheConfig = ['config_cache_path' => 'data/cache/config-cache.php'];

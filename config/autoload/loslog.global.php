@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Laminas\Stratigility\Middleware\ErrorHandler;
+use Mezzio\ProblemDetails\ProblemDetailsMiddleware;
 
 return [
     'dependencies' => [
@@ -10,7 +10,7 @@ return [
             Psr\Log\LoggerInterface::class => LosMiddleware\LosLog\LoggerFactory::class,
         ],
         'delegators' => [
-            ErrorHandler::class => [
+            ProblemDetailsMiddleware::class => [
                 LosMiddleware\LosLog\ErrorHandlerListenerDelegatorFactory::class,
             ],
         ],
