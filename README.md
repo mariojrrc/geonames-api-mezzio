@@ -28,3 +28,9 @@ Obs: caso tenha problema com composer install e mongodb-ext, execute `docker exe
 
 **BONUS**
 Console disponível para criar estados/cidades disponível via `php bin/console populate:geodb`;
+
+## Live Demo
+Você pode ver aplicação a documentação da API [aqui](http://geonames-api.herokuapp.com/doc/).
+
+## Dúvidas ou sugestões?
+Me mande um [e-mail](mailto:mariojr.rcosta@gmail.com)
