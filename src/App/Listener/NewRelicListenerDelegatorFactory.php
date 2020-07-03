@@ -6,9 +6,8 @@ namespace App\Listener;
 
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\DelegatorFactoryInterface;
-use Laminas\Stratigility\Middleware\ErrorHandler;
-
 use Mezzio\ProblemDetails\ProblemDetailsMiddleware;
+
 use function assert;
 
 class NewRelicListenerDelegatorFactory implements DelegatorFactoryInterface
