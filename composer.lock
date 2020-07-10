@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e80650e2b7689abead96bc9c9040b1d2",
+    "content-hash": "0ad93eadb2e15ec2afd4c0b0a33397e9",
     "packages": [
         {
             "name": "brick/math",
@@ -1966,6 +1966,60 @@
             "description": "PHP library to transform url query into db partial queries",
             "homepage": "https://github.com/lansoweb/uql",
             "time": "2020-01-02T13:19:18+00:00"
+        },
+        {
+            "name": "mariojrrc/laminas-mongodb-paginator-adapter",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mariojrrc/laminas-mongodb-paginator-adapter.git",
+                "reference": "001b4601dce22e250c0eccc6c43069bb26a01995"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mariojrrc/laminas-mongodb-paginator-adapter/zipball/001b4601dce22e250c0eccc6c43069bb26a01995",
+                "reference": "001b4601dce22e250c0eccc6c43069bb26a01995",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mongodb": "*",
+                "laminas/laminas-paginator": "^2.8",
+                "mongodb/mongodb": "^1.5.0",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "dg/bypass-finals": "^1.2",
+                "doctrine/coding-standard": "^8.0",
+                "phpspec/prophecy-phpunit": "^2.0",
+                "phpunit/phpunit": "^9.2",
+                "squizlabs/php_codesniffer": "^3.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mariojrrc\\Laminas\\Paginator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Mario Costa",
+                    "email": "mariojr.rcosta@gmail.com"
+                }
+            ],
+            "description": "MongoDB Adapter to be used with Laminas Paginator",
+            "homepage": "https://github.com/mariojrrc/laminas-mongodb-paginator-adapter",
+            "keywords": [
+                "laminas",
+                "laminas-paginator",
+                "mongodb",
+                "paginator",
+                "php"
+            ],
+            "time": "2020-07-10T03:13:48+00:00"
         },
         {
             "name": "mezzio/mezzio",
@@ -8269,8 +8323,8 @@
         "php": "^7.4",
         "ext-intl": "*",
         "ext-json": "*",
-        "ext-mongodb": "*",
         "ext-mbstring": "*",
+        "ext-mongodb": "*",
         "ext-redis": "*"
     },
     "platform-dev": []

@@ -10,10 +10,10 @@ use DateTime;
 use DateTimeZone;
 use Geo\Entity\CollectionInterface;
 use Geo\Entity\EntityInterface;
-use Geo\Paginator\MongoMapperAdapter;
 use Laminas\Cache\Storage\StorageInterface;
 use Laminas\InputFilter\InputFilterInterface;
 use Laminas\Paginator\Paginator;
+use Mariojrrc\Laminas\Paginator\MongoDBAdapter;
 use MongoDB\BSON\UTCDateTime;
 use MongoDB\Collection;
 
@@ -73,7 +73,7 @@ abstract class Mapper implements MapperInterface
             $conditions['deleted'] = ['$ne' => true];
         }
 
-        $adapter = new MongoMapperAdapter(
+        $adapter = new MongoDBAdapter(
             $this->mongoCollection,
             $conditions,
             $options,
