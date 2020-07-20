@@ -34,7 +34,7 @@ Obs: If you have problem with mongodb extension when composer installing, run `d
 There's a console command to create brazilian states and cities available through `php bin/console populate:geodb` command;
 
 ## Live Demo
-You can check the api and its documentation live on Heroku by clicking  [here](http://geonames-api.herokuapp.com/doc/).
+You can check the api and its documentation live on Heroku by clicking  [here](http://geonames-api.herokuapp.com/doc/). A simple front-end to list cities and states can be found [here](https://github.com/mariojrrc/geonames-vue).
 
 ## CI/CD
 There is a configured pipeline in [SemaphoreCI](http://semaphoreci.com/) to run some code style validations ([PHPCS](https://github.com/squizlabs/PHP_CodeSniffer) and [PHPStan](https://github.com/phpstan/phpstan)) and Unit tests. After a successful build, it deploys the code to [Heroku](https://heroku.com) servers.
