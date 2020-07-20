@@ -2,35 +2,47 @@ GeoNames API Mezzio/MongoDB Example
 =================================================
 [![Build Status](https://semaphoreci.com/api/v1/mariojrrc/geonames-api-mezzio/branches/master/badge.svg)](https://semaphoreci.com/mariojrrc/geonames-api-mezzio)
 
-Este projeto contém uma API REST de exemplo escrita em PHP 7.4 utilizando [Mezzio](https://docs.mezzio.dev/) e [MongoDB](https://mongodb.com/).
-Possui basicamente dois endpoints com CRUD:
+This project is an example of REST API written in PHP 7.4 that makes use of [Mezzio](https://docs.mezzio.dev/) framework, [MongoDB](https://mongodb.com/) and [Redis](https://redis.io/) for cache.
+
+It basically has two endpoints that allow us to perform some CRUD operations:
 
 - /v1/state
 - /v1/city
 
-Para acessar a api é necessário utilizar header de autenticação no formato `X-Api-Key: uuid`. Os tokens para  usuário administrador e de consulta são definidos via `.env` localizado na raiz do projeto.
+The endppoints are protected by authorization header tokens in the following format `X-Api-Key: uuid`. It has two types of tokens defined in the file `.env` on project's root folder. One token is to perform some "Admin level" operations, such as create, update and delete. And the other one is to perform only read operations.
 
-A documentação dos endpoints pode ser encontrada na pasta `public/doc`. Ela é feita utilizando a notação do OpenAPI v3.
+Note: Tokens have rate-limit params setted up. You can configure them in `config/autoload/api-credentials.global.php` file. By default, it allow us to perform 100 requests per second.
 
-## Executando o projeto
+## DOCS
+The endpoint's documentation is located in `public/doc` folder. It was written on top of OpenAPI v3 notation.
 
-**OBS: Necessário PHP 7.4 e MongoDB instalados**
+## Running the project
 
-1. Copie ou renomeie o arquivo `.env.dist` e preencha as informações necessárias
-2. execute `composer install`
-3. execute `composer serve`
-4. Faça os testes via [Postman](https://www.getpostman.com/) ou similar no endereço `0.0.0.0:8080/v1/state`
+**OBS: PHP 7.4, MongoDB, Redis extensions are requeried**
 
-** Uso com Docker **
+1. Rename the file `.env.dist` to `.env` and fill out the required info
+2. Run `composer install`
+3. Run `composer serve`
+4. Make calls to the endpoints via [Postman](https://www.getpostman.com/) or similar in the following address `0.0.0.0:8080/v1/state`
+
+**Using it with Docker**
 1. `docker-compose up`
 2. `docker exec -t geoname-mezzio-php bash -c "cd /var/www/html && composer install"`
-Obs: caso tenha problema com composer install e mongodb-ext, execute `docker exec -t geoname-mezzio-php bash -c "pecl install mongodb"`
+Obs: If you have problem with mongodb extension when composer installing, run `docker exec -t geoname-mezzio-php bash -c "pecl install mongodb"`
 
 **BONUS**
-Console disponível para criar estados/cidades disponível via `php bin/console populate:geodb`;
+There's a console command to create brazilian states and cities available through `php bin/console populate:geodb` command;
 
 ## Live Demo
-Você pode ver aplicação a documentação da API [aqui](http://geonames-api.herokuapp.com/doc/).
+You can check the api and its documentation live on Heroku by clicking  [here](http://geonames-api.herokuapp.com/doc/).
 
-## Dúvidas ou sugestões?
-Me mande um [e-mail](mailto:mariojr.rcosta@gmail.com)
+## CI/CD
+There is a configured pipeline in [SemaphoreCI](http://semaphoreci.com/) to run some code style validations ([PHPCS](https://github.com/squizlabs/PHP_CodeSniffer) and [PHPStan](https://github.com/phpstan/phpstan)) and Unit tests. After a successful build, it deploys the code to [Heroku](https://heroku.com) servers.
+For monitoring, the heroku app makes use of the [Newrelic](https://newrelic.com/) add-on.
+
+## Questions and Suggestions?
+Drop me an [e-mail](mailto:mariojr.rcosta@gmail.com)
+
+## TODO
+- Fetch api tokens from database (cached) in order to keep it more easly to mantain
+- Create more unit tests to have a 100% coverage score.
