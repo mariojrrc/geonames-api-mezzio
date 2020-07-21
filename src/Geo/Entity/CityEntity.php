@@ -65,10 +65,40 @@ class CityEntity extends Entity implements EntityInterface, Unserializable
         return $this->id;
     }
 
+    public function name(): string
+    {
+        return $this->name;
+    }
+
+    public function stateId(): StateId
+    {
+        return $this->stateId;
+    }
+
+    public function createdAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function updatedAt(): DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function deleted(): ?bool
+    {
+        return $this->deleted;
+    }
+
+    public function deletedAt(): ?DateTimeImmutable
+    {
+        return $this->deletedAt;
+    }
+
     public function getInputFilter(): InputFilterInterface
     {
         if ($this->inputFilter === null) {
-            $this->inputFilter = new StateInputFilter();
+            $this->inputFilter = new CityInputFilter();
         }
 
         return $this->inputFilter;
