@@ -23,7 +23,13 @@
         "source": "https://github.com/mariojrrc/geonames-api-mezzio"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "laminas/laminas-component-installer": true,
+            "ocramius/package-versions": true,
+            "composer/package-versions-deprecated": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
